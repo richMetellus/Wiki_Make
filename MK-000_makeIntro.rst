@@ -16,9 +16,9 @@ of a project. There are various rules that are specified as target entries in th
 
 * General form: ``make <target-label>``
 
-    * ex: ``make clean``, ``make all``
+  * ex: ``make clean``, ``make all``
 
-    * the target-label is specified in the :ref:`Makefile`
+  * the target-label is specified in the :ref:`Makefile`
 
 .. _Makefile:
 
@@ -34,8 +34,8 @@ A makefile
 * contains information like source-level dependencies for each 
   file as well as the build-order dependencies.
 
-   * The *make utility* automatically determines which pieces of a large program 
-     need to be recompiled, and issues commands to recompile them.
+  * The *make utility* automatically determines which pieces of a large program 
+    need to be recompiled, and issues commands to recompile them.
 
 * Makefiles are white-space sensitive. so indentation matter
 
@@ -44,11 +44,11 @@ Makefiles Rule
 
 A simple makefile consists of “rules” with the following format:
 
-    .. code-block:: bash
-       :caption: rule format
+.. code-block:: bash
+   :caption: rule format
 
-        target: dependencies
-            recipe
+    target: dependencies
+        recipe
 
 * we press tab (NOT 4 space) and indicate some ``action`` to do in order to build the ``target``
   whenever one of its ``dependencies`` change
@@ -66,7 +66,7 @@ are executable or :term:`object files`.
 A :term:`prerequisite` or :term:`dependency` is a file that is used as input to create the target. 
 A target often depends on several files.
 
-A `recipe`` is an action that make carries out.
+A :term:`recipe` is an action that make carries out.
 
 * A recipe may have more than one command, either on the same line or each on its own line. 
 
@@ -97,31 +97,24 @@ Create a folder with the following document
 
 The files have the original contents
 
-.. tabs::
+.. literalinclude:: ./_resources/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/message.h
+   :language: c++
+   :caption: message.h
+   :linenos:
+
+.. literalinclude:: ./_resources/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/message.cpp
+   :language: c++
+   :caption: message.cpp
+   :linenos:
+
+.. literalinclude:: ./_resources/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/main.cpp
+   :language: c++
+   :caption: main.cpp
+   :linenos:
    
-   .. tab:: main.cpp
-      
-      .. literalinclude:: /Programming/_resources/BuildSystemsAndAutomation/GNU_Make/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/main.cpp
-         :language: c++
-         :linenos:
-
-   .. tab:: message.h
-      
-      .. literalinclude:: /Programming/_resources/BuildSystemsAndAutomation/GNU_Make/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/message.h
-         :language: c++
-         :linenos:
-
-   .. tab:: message.cpp
-      
-      .. literalinclude:: /Programming/_resources/BuildSystemsAndAutomation/GNU_Make/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/message.cpp
-         :language: c++
-         :linenos:
-
-   .. tab:: Makefile
-      
-      .. literalinclude:: /Programming/_resources/BuildSystemsAndAutomation/GNU_Make/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/Makefile
-         :language: bash
-         :linenos:
+.. literalinclude:: ./_resources/gnu-make-tutorials/01_Essentials/A_SimpleMakefiletut/Makefile
+   :language: bash
+   :linenos:
 
 Breaking down the Makefile
 ------------------------------
@@ -132,40 +125,40 @@ This is called the `default goal`.
 * In this example it is target that is the default goal is ``output``
 * Looking at the first 2 lines:
 
-    .. literalinclude:: /Programming/_resources/GNU_Make/gnu-make-tutorials/Makefile
-       :language: bash
-       :lines: 1-2
+  .. literalinclude:: /Programming/_resources/GNU_Make/gnu-make-tutorials/Makefile
+     :language: bash
+     :lines: 1-2
 
-    * this form the rule for relinking "output", but before  make can fully process this rule, it
-      must process the rules fro the files that ``output`` depends on, which in this case are the 
-      object files ``*.o``
+  * this form the rule for relinking "output", but before  make can fully process this rule, it
+    must process the rules fro the files that ``output`` depends on, which in this case are the 
+    object files ``*.o``
 
 * in line 4, we are going to create ``main.o`` every time main.cpp changes. So when it changes
   take the action of just compiling ``-c``, no linking main.cpp into an :term:`object file`
 
-    * so this create the ``main.o`` file
+  * so this create the ``main.o`` file
 
 * line 10, 11 : one more rule ``clean``
 
-    * This does not depend on anything and we can call it from the terminal
-    * using the wildcard ``*``, remove anything that ends in .o and remove output.
+  * This does not depend on anything and we can call it from the terminal
+  * using the wildcard ``*``, remove anything that ends in .o and remove output.
 
 **Building The project**
 
 * In the directory where the Makefile is located at, simply run ``make`` from the terminal.
 
-    .. code-block::
-       
-       $ make
-       g++ -c main.cpp
-       g++ -c message.cpp
-       g++ main.o message.o -o output
+  .. code-block::
+     
+     $ make
+     g++ -c main.cpp
+     g++ -c message.cpp
+     g++ main.o message.o -o output
 
 * once everything is compiled and linked, the following files are now in the same directory
 
-    #. main.o
-    #. message.o
-    #. output
+  #. main.o
+  #. message.o
+  #. output
 
 
 **Run the executable binary produced**
@@ -179,16 +172,16 @@ make is smart about what to rebuild
 
 * Invoking the command ``make`` again will not update as no file has change.
 
-    .. code-block:: bash
-       
-       $ make
-       make: 'output' is up to date.
+  .. code-block:: bash
+     
+     $ make
+     make: 'output' is up to date.
 
 * Modify message.cpp and re-run ``make`` command, only the target message.o will be triggered, 
   and relinking is done.
 
-    .. code-block:: bash
-       
-       $ make
-       g++ -c message.cpp
-       g++ main.o message.o -o output
+  .. code-block:: bash
+     
+     $ make
+     g++ -c message.cpp
+     g++ main.o message.o -o output
